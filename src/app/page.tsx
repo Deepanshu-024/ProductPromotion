@@ -1,10 +1,25 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase/client";
 
 export default function Home() {
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const formData = new FormData(e.target as HTMLFormElement);
+  const email = formData.get("email");
+  console.log(email);
+
+  const { data, error } = await supabase.from("Users").insert({ email })
+}
+
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-    <h1>Hello World!!!</h1>
+    <div className="flex flex-col items-center justify-center mt-10">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input type="text" name="email" placeholder="mail" />
+        <Button type="submit">Submit</Button>
+      </form>
     </div>
   );
 }
