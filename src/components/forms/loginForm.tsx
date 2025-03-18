@@ -44,7 +44,7 @@ const [passwordError, setPasswordError] = useState("");
       <form ref={formRef} onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="name" />
         <input type="email" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="password"/>
+        <input type="password" name="password" placeholder={passwordError}/>
         <Button type="submit">Login</Button>
       </form>
     </div>
