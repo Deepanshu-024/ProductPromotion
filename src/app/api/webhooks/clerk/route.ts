@@ -53,14 +53,20 @@ export async function POST(req: Request) {
 //   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
 //   console.log('Webhook payload:', body)
 if (evt.type === 'user.created') {
-    const { id, email_addresses, first_name, last_name,created_at } = evt.data
+    const { id, email_addresses, first_name, last_name, created_at } = evt.data
+
+    // Convert timestamp to ISO date string if it's a number (milliseconds)
+    const formattedDate = typeof created_at === 'number' 
+      ? new Date(created_at).toISOString()
+      : created_at;
+
     const { data, error } = await supabase
       .from('Profiles')
       .insert({ 
         id: id,
         full_name: `${first_name} ${last_name}`, 
         email: email_addresses[0].email_address, 
-        created_at: created_at,
+        created_at: formattedDate,
       });   
       if (error) {
         console.error('Error creating user:', error)
